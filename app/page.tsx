@@ -6,6 +6,7 @@ import { stats, servicesContent, projects, processSteps, techStack, whyUs } from
 import Link from "next/link";
 import { useScroll, useTransform, useInView } from "framer-motion";
 import { useRef, memo } from "react";
+import { MotionValue } from "framer-motion";
 
 const ThreeBackground = dynamic(() => import("@/src/components/ThreeBackground"), {
   ssr: false,
@@ -14,7 +15,13 @@ const ThreeBackground = dynamic(() => import("@/src/components/ThreeBackground")
 
 import SmoothScroll from "@/src/components/SmoothScroll";
 
-const ServiceVisualEffect = memo(({ service, index, progress }) => {
+interface ServiceVisualEffectProps {
+  service: any;
+  index: number;
+  progress: MotionValue<number>;
+}
+
+const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEffectProps) => {
   const yParallax = useTransform(progress, [0, 1], [150, -150]);
   const opacity = useTransform(progress, [0.1, 0.3, 0.7, 0.9], [0, 1, 1, 0]);
   const rotateX = useTransform(progress, [0, 1], [15, -15]);
@@ -232,7 +239,12 @@ const ServiceVisualEffect = memo(({ service, index, progress }) => {
 
 ServiceVisualEffect.displayName = "ServiceVisualEffect";
 
-const ArchitecturalPanel = memo(({ service, index }) => {
+interface ArchitecturalPanelProps {
+  service: any;
+  index: number;
+}
+
+const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
