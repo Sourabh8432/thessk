@@ -60,7 +60,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
             </motion.div>
 
             {/* FLOWING CODE FRAGMENTS (DEEPER PARALLAX) */}
-            {[...Array(12)].map((_, i) => (
+            {[...Array(12)].map((_: any, i: number) => (
               <motion.div
                 key={i}
                 style={{ 
@@ -104,7 +104,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
                </motion.div>
 
                {/* UI LAYER 2 (FLOATING ICONS) */}
-               {[...Array(4)].map((_, i) => (
+               {[...Array(4)].map((_: any, i: number) => (
                  <motion.div
                    key={i}
                     style={{ 
@@ -127,7 +127,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
           <div className="relative w-full h-full flex items-center justify-center">
             {/* KINETIC DATA ORBITS */}
             <div className="relative w-96 h-96 flex items-center justify-center">
-               {[...Array(3)].map((_, i) => (
+               {[...Array(3)].map((_: any, i: number) => (
                  <motion.div
                    key={i}
                    animate={{ rotate: 360 * (i % 2 === 0 ? 1 : -1) }}
@@ -187,12 +187,12 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
                   
                   {/* INNER GEOMETRY */}
                   <div className="absolute inset-8 border border-black/[0.03] grid grid-cols-4 grid-rows-4">
-                     {[...Array(16)].map((_, i) => <div key={i} className="border-[0.5px] border-black/[0.02]" />)}
+                     {[...Array(16)].map((_: any, i: number) => <div key={i} className="border-[0.5px] border-black/[0.02]" />)}
                   </div>
                </motion.div>
 
                {/* FLOATING DESIGN TOKENS */}
-               {[...Array(5)].map((_, i) => (
+               {[...Array(5)].map((_: any, i: number) => (
                  <motion.div
                    key={i}
                    style={{ 
@@ -310,7 +310,7 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 className="text-[clamp(1.8rem,4.5vw,3rem)] font-black uppercase tracking-tighter leading-[0.85] text-black mb-10"
               >
-                {service.titleFull.split(' ').map((word, i) => (
+                {service.titleFull.split(' ').map((word: string, i: number) => (
                   <span 
                     key={i} 
                     className="inline-block mr-[0.3em] whitespace-nowrap"
@@ -343,7 +343,7 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
                 style={{ y: yStats }}
                 className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4"
               >
-                {service.details.map((d, j) => (
+                {service.details.map((d: string, j: number) => (
                   <motion.div
                     key={j}
                     initial={{ opacity: 0, x: -10 }}
