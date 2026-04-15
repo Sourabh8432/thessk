@@ -19,9 +19,7 @@ export default function About() {
     <div className="w-full min-h-screen bg-[#f2f2f2] selection-luxury">
       {/* 3D Background */}
       <div className="fixed inset-0 z-0 opacity-40 pointer-events-none">
-        <ThreeBackground pages={1}>
-          <></>
-        </ThreeBackground>
+        <ThreeBackground />
       </div>
 
       <div className="relative z-10 pt-36 pb-24 px-8 md:px-24 max-w-[1600px] mx-auto">
