@@ -109,13 +109,11 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
                    key={i}
                     style={{ 
                       rotateY: -30, rotateX: 20, z: 120 + i*30,
-                      y: useTransform(progress, [0, 1], [80 + i*20, -80 - i*20])
-                    }}
-                    className="absolute w-12 h-12 rounded-xl bg-white shadow-lg border border-black/5 flex items-center justify-center text-[10px] font-bold opacity-80"
-                    style={{ 
+                      y: useTransform(progress, [0, 1], [80 + i*20, -80 - i*20]),
                       top: `${20 + i*20}%`,
                       left: i % 2 === 0 ? "80%" : "-15%"
                     }}
+                    className="absolute w-12 h-12 rounded-xl bg-white shadow-lg border border-black/5 flex items-center justify-center text-[10px] font-bold opacity-80"
                  >
                    {["App", "Log", "Dev", "UI"][i]}
                  </motion.div>
@@ -197,12 +195,12 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
                {[...Array(5)].map((_, i) => (
                  <motion.div
                    key={i}
-                   style={{ y: useTransform(progress, [0, 1], [50 * (i+1), -50 * (i+1)]) }}
-                   className="absolute px-4 py-2 bg-white/80 border border-black/5 shadow-md rounded-full text-[9px] font-mono font-black tracking-widest uppercase text-black/40"
                    style={{ 
+                     y: useTransform(progress, [0, 1], [50 * (i+1), -50 * (i+1)]),
                      top: `${15 + i*15}%`,
-                     left: i % 2 === 0 ? "5%" : "75%"
+                     left: i % 2 === 0 ? "5%" : "75%" 
                    }}
+                   className="absolute px-4 py-2 bg-white/80 border border-black/5 shadow-md rounded-full text-[9px] font-mono font-black tracking-widest uppercase text-black/40"
                  >
                    {["Typography", "Color_Palette", "Grid_System", "Component", "Motion"][i]}
                  </motion.div>
