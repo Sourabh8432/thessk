@@ -216,7 +216,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
   return (
     <motion.div
       style={{ opacity }}
-      className={`absolute top-1/2 -translate-y-1/2 w-full lg:w-[60%] h-[500px] lg:h-[700px] pointer-events-none z-0 ${
+      className={`absolute top-1/2 -translate-y-1/2 w-full lg:w-[60%] h-[350px] sm:h-[500px] lg:h-[700px] pointer-events-none z-0 ${
         index % 2 === 0 ? "lg:left-auto lg:right-[-5%] left-0" : "lg:right-auto lg:left-[-5%] right-0"
       }`}
     >
@@ -262,7 +262,7 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
   return (
     <section
       ref={ref}
-      className="w-screen min-h-screen flex items-center relative overflow-hidden px-4 sm:px-12 md:px-24 py-16 lg:py-24"
+      className="w-full min-h-screen flex items-center relative overflow-hidden px-4 sm:px-12 md:px-24 py-16 lg:py-24"
     >
       <div className={`flex w-full h-full items-center relative gap-8 lg:gap-20 justify-center ${index % 2 === 0 ? "lg:justify-start" : "lg:justify-end"}`}>
         
@@ -308,7 +308,7 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
                 style={{ y: yHeader }}
                 initial={{ opacity: 0, x: -10 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
-                className="text-[clamp(1.8rem,4.5vw,3rem)] font-black uppercase tracking-tighter leading-[0.85] text-black mb-10"
+                className="text-[clamp(1.5rem,5vw,3rem)] font-black uppercase tracking-tighter leading-[0.85] text-black mb-10"
               >
                 {service.titleFull.split(' ').map((word: string, i: number) => (
                   <span 
@@ -385,7 +385,7 @@ export default function Home() {
       {/* ── MAIN CONTENT (Native Scroll) ── */}
       <div className="relative z-10 w-full">
         {/* HERO */}
-        <section className="w-screen min-h-screen flex flex-col items-center justify-center px-6 text-center pt-24 md:pt-32">
+        <section className="w-full min-h-screen flex flex-col items-center justify-center px-6 text-center pt-24 md:pt-32">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -403,7 +403,7 @@ export default function Home() {
                 initial={{ y: 60, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-                className="text-[clamp(3.5rem,15vw,18rem)] font-black text-black leading-[0.9] sm:leading-none tracking-tighter uppercase mb-2"
+                className="text-[clamp(3rem,12vw,14rem)] font-black text-black leading-[0.9] sm:leading-none tracking-tighter uppercase mb-2"
               >
                 THESSK<span className="text-[#ff4d4d]">.</span>
               </motion.h1>
@@ -483,7 +483,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="mb-16">
               <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-white/30 block mb-4">Why_Choose_Us</span>
-              <h2 className="text-5xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none uppercase">
+              <h2 className="text-4xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none uppercase">
                 Built for <span className="text-[#ff4d4d]">Results.</span>
               </h2>
             </div>
@@ -505,7 +505,7 @@ export default function Home() {
             <div className="flex justify-between items-end mb-16 border-b border-black/20 pb-12">
               <div>
                 <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-black/40 block mb-4">Selected_Work</span>
-                <h2 className="text-5xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none uppercase">WORKS<span className="text-black/10">.</span></h2>
+                <h2 className="text-4xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none uppercase">WORKS<span className="text-black/10">.</span></h2>
               </div>
               <span className="text-[10px] md:text-xs font-mono text-black/40 font-black tracking-widest uppercase mb-4">2024–25</span>
             </div>
@@ -533,7 +533,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20">
               <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-black/40 block mb-4">The_Process</span>
-              <h2 className="text-6xl md:text-9xl font-black tracking-tighter leading-none uppercase">
+              <h2 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter leading-none uppercase">
                 HOW WE <span className="text-[#ff4d4d]">WORK.</span>
               </h2>
             </div>
@@ -552,13 +552,13 @@ export default function Home() {
         {/* FOOTER / CTA */}
         <section className="bg-white text-black py-32 px-8 md:px-24 border-t border-black/5">
           <div className="max-w-7xl mx-auto w-full">
-            <div className="mb-20">
-              <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-black/40 block mb-6">Tech_Arsenal</span>
-              <div className="flex flex-wrap gap-4">
+            <div className="mb-24">
+              <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-black/40 block mb-8">Tech_Arsenal</span>
+              <div className="flex flex-wrap gap-3 md:gap-4">
                 {techStack.map((tech, i) => (
                   <span
                     key={i}
-                    className="px-6 py-3 border-2 border-black/20 text-[10px] md:text-xs font-mono font-black uppercase tracking-widest text-black/80 hover:bg-black hover:text-white transition-all duration-300 cursor-default"
+                    className="px-5 py-2.5 md:px-6 md:py-3 border border-black/10 text-[9px] md:text-xs font-mono font-black uppercase tracking-widest text-black/60 hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-default rounded-sm bg-black/[0.02]"
                   >
                     {tech}
                   </span>
@@ -566,18 +566,18 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 lg:gap-16 mb-20 border-b border-black/20 pb-20">
-              <div className="max-w-4xl">
+            <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-12 lg:gap-16 mb-20 border-b border-black/20 pb-20">
+              <div className="max-w-4xl text-center md:text-left">
                 <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-black/40 block mb-6">Ready_To_Launch?</span>
-                <h2 className="text-[3.5rem] sm:text-[6rem] md:text-[9rem] lg:text-[12rem] font-black tracking-tighter leading-[0.85] uppercase">
+                <h2 className="text-[3.5rem] sm:text-[6rem] md:text-[9rem] lg:text-[12rem] font-black tracking-tighter leading-[0.9] uppercase mb-10 md:mb-0">
                   LET'S<br /><span className="italic text-[#ff4d4d]">BUILD IT.</span>
                 </h2>
               </div>
-              <Link href="/contact" className="w-full sm:w-auto">
+              <Link href="/contact" className="w-auto">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full sm:w-32 sm:h-32 lg:w-48 lg:h-48 aspect-square rounded-full bg-black text-white flex items-center justify-center font-black text-sm lg:text-base uppercase tracking-wider cursor-pointer transition-all duration-300 text-center leading-tight shadow-2xl group"
+                  className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 aspect-square rounded-full bg-black text-white flex items-center justify-center font-black text-xs md:text-sm lg:text-base uppercase tracking-widest cursor-pointer transition-all duration-300 text-center leading-tight shadow-3xl group mx-auto md:mx-0"
                 >
                   <span className="group-hover:text-[#ff4d4d] transition-colors">Get Free<br />Consult</span>
                 </motion.div>

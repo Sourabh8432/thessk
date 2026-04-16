@@ -31,7 +31,7 @@ export default function About() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="text-[7rem] md:text-[14rem] font-black tracking-[-0.1em] leading-none uppercase text-black"
+            className="text-[clamp(3.5rem,15vw,7rem)] md:text-[14rem] font-black tracking-[-0.1em] leading-none uppercase text-black"
           >
             ABOUT<span className="text-[#ff4d4d]">.</span>
           </motion.h1>
@@ -44,7 +44,7 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight text-black mb-8"
+              className="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight text-black mb-8"
             >
               Startup Agility.<br />
               End-to-End Mastery.<br />
@@ -118,9 +118,9 @@ export default function About() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white py-24 text-center group hover:bg-[#ff4d4d] transition-all duration-500"
+              className="bg-white py-16 md:py-24 text-center group hover:bg-[#ff4d4d] transition-all duration-500"
             >
-              <div className="text-[8rem] md:text-[11rem] font-black text-black group-hover:text-white tracking-tighter leading-none transition-colors">
+              <div className="text-[5rem] sm:text-[8rem] md:text-[11rem] font-black text-black group-hover:text-white tracking-tighter leading-none transition-colors">
                 {s.value}
               </div>
               <div className="text-[9px] font-mono font-black text-black/30 group-hover:text-white/60 uppercase tracking-[0.5em] mt-4 transition-colors">

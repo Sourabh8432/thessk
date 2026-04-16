@@ -241,7 +241,7 @@ const CameraRig = () => {
     // SHAKE EFFECT
     const shake = Math.sin(state.clock.elapsedTime * 60) * breakMoment * (isMobile ? 0.2 : 0.4);
 
-    const smoothFactor = isMobile ? 5.0 : 4.2; 
+    const smoothFactor = isMobile ? 4.5 : 3.8; // Slightly more 'weighted' feel for premium motion
     camera.position.z = THREE.MathUtils.damp(camera.position.z, targetZ, smoothFactor, delta);
     camera.position.x = THREE.MathUtils.damp(camera.position.x, curveX + shake,  smoothFactor, delta);
     camera.position.y = THREE.MathUtils.damp(camera.position.y, targetY + shake, smoothFactor, delta);
@@ -303,13 +303,18 @@ export default function ThreeBackground() {
       const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
       if (vignetteRef.current) {
         const finaleState = Math.max(0, (progress - 0.45) * 8); // Start bloom at 45%
-        const opacity = Math.min(1.0, 0.6 - progress * 2.5 + (finaleState * 1.5));
-        const blur = Math.max(0, 5 - progress * 100 + (finaleState * 15)); 
+        
+        // Initial "Clean Minimal" state at progress = 0, fades out quickly
+        const startState = Math.max(0, 1.0 - progress * 5.0); 
+        
+        const opacity = Math.min(1.0, startState + (finaleState * 1.2));
+        const blur = Math.max(0, (startState * 20) + (finaleState * 15)); 
+        const transparentSize = 30 + (progress * 100) - (finaleState * 100);
         
         vignetteRef.current.style.opacity = opacity;
         vignetteRef.current.style.backdropFilter = `blur(${blur}px)`;
-        vignetteRef.current.style.background = `radial-gradient(circle at center, transparent ${45 - finaleState * 45}%, rgba(255,255,255,${0.6 + finaleState * 0.4}) 100%)`;
-        vignetteRef.current.style.transform = `scale(${1 + progress * 0.4})`;
+        vignetteRef.current.style.background = `radial-gradient(circle at center, transparent ${Math.max(0, Math.min(100, transparentSize))}%, rgba(255,255,255,${Math.min(1.0, 0.8 + startState * 0.2 + finaleState)}) 100%)`;
+        vignetteRef.current.style.transform = `scale(${1 + progress * 0.3})`;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -341,7 +346,7 @@ export default function ThreeBackground() {
         <PerspectiveCamera makeDefault fov={fov} near={0.5} far={22000} position={[0, 10, 60]} />
         <Suspense fallback={null}><World /></Suspense>
       </Canvas>
-      <div ref={vignetteRef} style={{ opacity: 0.6, transform: 'scale(1)', background: 'radial-gradient(circle at center, transparent 40%, rgba(255,255,255,0.6) 100%)', backdropFilter: 'blur(5px)', WebkitBackdropFilter: 'blur(5px)', transition: 'opacity 0.2s linear' }} className="absolute inset-0 z-[100] pointer-events-none" />
+      <div ref={vignetteRef} style={{ opacity: 1.0, transform: 'scale(1)', background: 'radial-gradient(circle at center, transparent 30%, rgba(255,255,255,1.0) 100%)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', transition: 'none' }} className="absolute inset-0 z-[100] pointer-events-none" />
     </div>
   );
 }

@@ -46,7 +46,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="text-[7rem] md:text-[13rem] font-black tracking-[-0.1em] leading-none uppercase text-black"
+            className="text-[clamp(3rem,12vw,6rem)] md:text-[13rem] font-black tracking-[-0.1em] leading-none uppercase text-black"
           >
             CONNECT<span className="text-[#00b8ff]">.</span>
           </motion.h1>
@@ -64,13 +64,13 @@ export default function Contact() {
         <div className="bg-black text-white p-14 md:p-20 mb-10 relative overflow-hidden">
           {/* Ghost text */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-            <span className="text-[20rem] font-black text-white/[0.02] tracking-tighter">SYNC.</span>
+            <span className="text-[10rem] sm:text-[20rem] font-black text-white/[0.02] tracking-tighter">SYNC.</span>
           </div>
 
           <div className="relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-10 border-b border-white/10 pb-16">
               <div>
-                <h2 className="text-6xl md:text-[10rem] font-black tracking-[-0.1em] leading-none uppercase">
+                <h2 className="text-4xl sm:text-6xl md:text-[10rem] font-black tracking-[-0.1em] leading-none uppercase">
                   LET'S<br /><span className="text-[#ff4d4d]">TALK.</span>
                 </h2>
               </div>

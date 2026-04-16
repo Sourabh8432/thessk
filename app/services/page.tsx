@@ -25,7 +25,7 @@ export default function Services() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-              className="text-[7rem] md:text-[14rem] font-black tracking-[-0.1em] leading-none uppercase text-black"
+              className="text-[clamp(3rem,12vw,6rem)] md:text-[14rem] font-black tracking-[-0.1em] leading-none uppercase text-black"
             >
               SERVICES<span className="text-[#00b8ff]">.</span>
             </motion.h1>
@@ -62,7 +62,7 @@ export default function Services() {
                 </span>
               </div>
 
-              <h2 className="text-5xl md:text-7xl font-black uppercase tracking-[-0.07em] leading-none text-black group-hover:text-white transition-colors duration-500 mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-7xl font-black uppercase tracking-[-0.07em] leading-none text-black group-hover:text-white transition-colors duration-500 mb-6">
                 {service.titleFull}
               </h2>
 
