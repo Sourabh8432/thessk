@@ -19,7 +19,7 @@ const AdvancedCity = () => {
   const { size }      = useThree();
 
   const isMobile = size.width < 768;
-  const BUILDING_COUNT = isMobile ? 100 : 180; 
+  const BUILDING_COUNT = isMobile ? 80 : 180; 
   const START_Z        = 40;
   const END_Z          = -6000;
 
@@ -68,9 +68,14 @@ const AdvancedCity = () => {
   }, [dummy, cityData]);
 
   const archMaterial = useMemo(() => {
-    const mat = new THREE.MeshPhysicalMaterial({
-      roughness: 0.2, metalness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.05, color: "#f8fafc", emissive: "#ffffff", emissiveIntensity: 0.015, transparent: true
+    const MaterialClass = isMobile ? THREE.MeshStandardMaterial : THREE.MeshPhysicalMaterial;
+    const mat = new MaterialClass({
+      roughness: 0.2, metalness: 0.1, color: "#f8fafc", emissive: "#ffffff", emissiveIntensity: 0.015, transparent: true
     });
+    if (!isMobile) {
+      mat.clearcoat = 1.0;
+      mat.clearcoatRoughness = 0.05;
+    }
     mat.onBeforeCompile = (shader) => {
       shader.uniforms.uTime   = { value: 0 }; 
       shader.uniforms.uRise   = { value: 0 };
@@ -117,11 +122,15 @@ const AdvancedCity = () => {
       mat.userData.shader = shader;
     };
     return mat;
-  }, []);
+  }, [isMobile]);
 
-  const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-    roughness: 0.01, metalness: 0.2, transmission: 0.05, thickness: 2.0, transparent: true, opacity: 0.7, color: "#ffffff", clearcoat: 1.0
-  }), []);
+  const glassMaterial = useMemo(() => {
+    const MaterialClass = isMobile ? THREE.MeshStandardMaterial : THREE.MeshPhysicalMaterial;
+    return new MaterialClass({
+      roughness: 0.01, metalness: 0.2, transparent: true, opacity: 0.7, color: "#ffffff",
+      ...(isMobile ? {} : { transmission: 0.05, thickness: 2.0, clearcoat: 1.0 })
+    });
+  }, [isMobile]);
 
   useFrame((state) => {
     const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
@@ -129,7 +138,12 @@ const AdvancedCity = () => {
     
     if (archMaterial.userData.shader) {
       archMaterial.userData.shader.uniforms.uTime.value   = state.clock.getElapsedTime();
-      archMaterial.userData.shader.uniforms.uRise.value   = THREE.MathUtils.lerp(archMaterial.userData.shader.uniforms.uRise.value, 1, 0.03);
+      const currentRise = archMaterial.userData.shader.uniforms.uRise.value;
+      if (currentRise < 0.995) {
+        archMaterial.userData.shader.uniforms.uRise.value = THREE.MathUtils.lerp(currentRise, 1, 0.03);
+      } else if (currentRise !== 1) {
+        archMaterial.userData.shader.uniforms.uRise.value = 1;
+      }
       archMaterial.userData.shader.uniforms.uFinale.value = finale;
     }
     glassMaterial.opacity = 0.7 * (1.0 - finale);
@@ -148,26 +162,36 @@ const AdvancedCity = () => {
 
 const Ground = () => {
   const meshRef = useRef();
+  const { size } = useThree();
+  const isMobile = size.width < 768;
   useFrame(() => {
     const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
     const finale = Math.max(0, (scrollProgress - 0.48) * 10);
-    if (meshRef.current) meshRef.current.material.opacity = 1.0 - finale;
+    if (meshRef.current) {
+      const targetOpacity = 1.0 - finale;
+      if (Math.abs(meshRef.current.material.opacity - targetOpacity) > 0.01) {
+        meshRef.current.material.opacity = targetOpacity;
+      }
+    }
   });
   return (
     <>
       <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, -3000]} receiveShadow>
         <planeGeometry args={[15000, 20000]} /><meshStandardMaterial color="#ffffff" roughness={0.02} metalness={0.02} transparent />
       </mesh>
-      <ContactShadows position={[0, -0.48, 0]} opacity={0.18} scale={3000} blur={2.5} far={20} color="#000000" />
+      {!isMobile && <ContactShadows position={[0, -0.48, 0]} opacity={0.18} scale={3000} blur={2.5} far={20} color="#000000" />}
     </>
   );
 };
 
 const FinaleShards = () => {
   const meshRef = useRef();
+  const { size } = useThree();
+  const isMobile = size.width < 768;
   const shards  = useMemo(() => {
     const data = [];
-    for (let i = 0; i < 800; i++) {
+    const count = isMobile ? 350 : 800;
+    for (let i = 0; i < count; i++) {
       data.push({
         x: (Math.random() - 0.5) * 800,
         y: Math.random() * 800 + 400,
@@ -179,17 +203,26 @@ const FinaleShards = () => {
       });
     }
     return data;
-  }, []);
+  }, [isMobile]);
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
-  const mat   = useMemo(() => new THREE.MeshPhysicalMaterial({ metalness: 0.9, roughness: 0.05, clearcoat: 1.0, transparent: true }), []);
+  const mat   = useMemo(() => {
+    const MaterialClass = isMobile ? THREE.MeshStandardMaterial : THREE.MeshPhysicalMaterial;
+    return new MaterialClass({ 
+      metalness: 0.9, roughness: 0.05, transparent: true,
+      ...(isMobile ? {} : { clearcoat: 1.0 })
+    });
+  }, [isMobile]);
 
   useFrame((state, delta) => {
     if (!meshRef.current) return;
     const progress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
     const finale = Math.max(0, (progress - 0.53) * 20); // Quick ramp up at 53%
     
-    mat.opacity = finale > 0 ? Math.min(1.0, finale * 2.0) : 0;
+    const targetOpacity = finale > 0 ? Math.min(1.0, finale * 2.0) : 0;
+    if (mat.opacity !== targetOpacity) mat.opacity = targetOpacity;
+
+    if (finale <= 0) return; // ZERO OVERHEAD when not in finale
     
     shards.forEach((s, i) => {
       // Shards fall based on finale progress + individual offset
@@ -206,7 +239,7 @@ const FinaleShards = () => {
   });
 
   const shardGeo = useMemo(() => new THREE.BoxGeometry(1, 1, 1), []);
-  return <instancedMesh ref={meshRef} args={[shardGeo, mat, 800]} frustumCulled={false} />;
+  return <instancedMesh ref={meshRef} args={[shardGeo, mat, isMobile ? 350 : 800]} frustumCulled={false} />;
 };
 
 const CameraRig = () => {
@@ -264,7 +297,7 @@ const World = () => {
     const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
     const finale = Math.max(0, (scrollProgress - 0.48) * 10);
     
-    if (scene.fog) {
+    if (scene.fog && finale > 0) {
       scene.fog.far = THREE.MathUtils.lerp(7000, 50, finale);
     }
   });
@@ -276,8 +309,8 @@ const World = () => {
       position={[60, 400, 200]} 
       intensity={3.5} 
       color="#ffffff" 
-      castShadow 
-      shadow-mapSize={[isMobile ? 512 : 2048, isMobile ? 512 : 2048]} 
+      castShadow={!isMobile} 
+      shadow-mapSize={[isMobile ? 256 : 2048, isMobile ? 256 : 2048]} 
       shadow-camera-left={-2500} 
       shadow-camera-right={2500} 
       shadow-camera-top={2500} 
@@ -285,8 +318,8 @@ const World = () => {
       shadow-camera-far={7500} 
     />
     <Ground /><AdvancedCity /><FinaleShards />
-    <Sparkles count={isMobile ? 100 : 250} scale={[isMobile ? 1000 : 2000, 400, isMobile ? 1000 : 2000]} position={[0, 120, -1000]} size={isMobile ? 0.6 : 0.8} speed={0.03} opacity={0.15 * (1.0 - (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) > 0.46 ? 1 : 0))} color="#fff" /><CameraRig />
-    <EffectComposer disableNormalPass><Noise opacity={isMobile ? 0.003 : 0.005} /></EffectComposer>
+    {!isMobile && <Sparkles count={isMobile ? 80 : 250} scale={[isMobile ? 1000 : 2000, 400, isMobile ? 1000 : 2000]} position={[0, 120, -1000]} size={isMobile ? 0.6 : 0.8} speed={0.03} opacity={0.15 * (1.0 - (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) > 0.46 ? 1 : 0))} color="#fff" />}<CameraRig />
+    {!isMobile && <EffectComposer disableNormalPass><Noise opacity={isMobile ? 0.003 : 0.005} /></EffectComposer>}
   </>
   );
 };
