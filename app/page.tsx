@@ -35,7 +35,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
             {/* 3D BROWSER WIREFRAME */}
             <motion.div 
               style={{ rotateX, rotateY }}
-              className="w-[450px] h-[300px] border border-black/10 bg-white/5 backdrop-blur-sm rounded-lg relative overflow-hidden shadow-2xl"
+              className="w-[clamp(280px,90vw,450px)] h-[clamp(200px,65vw,300px)] border border-black/10 bg-white/5 backdrop-blur-sm rounded-lg relative overflow-hidden shadow-2xl"
             >
               <div className="h-6 w-full border-b border-black/10 flex items-center px-3 gap-1.5 bg-black/5">
                  <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
@@ -81,7 +81,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
         return (
           <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: "1500px" }}>
             {/* EXPLODED UI LAYERS */}
-            <div className="relative w-64 h-[450px]">
+            <div className="relative w-[clamp(200px,60vw,256px)] h-[clamp(350px,80vh,450px)]">
                {/* BACK LAYER (CHASSIS) */}
                <motion.div 
                  style={{ rotateY: -30, rotateX: 20, z: -50 }}
@@ -126,7 +126,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
         return (
           <div className="relative w-full h-full flex items-center justify-center">
             {/* KINETIC DATA ORBITS */}
-            <div className="relative w-96 h-96 flex items-center justify-center">
+            <div className="relative w-[clamp(250px,80vw,384px)] h-[clamp(250px,80vw,384px)] flex items-center justify-center">
                {[...Array(3)].map((_: any, i: number) => (
                  <motion.div
                    key={i}
@@ -169,7 +169,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
         return (
           <div className="relative w-full h-full flex items-center justify-center">
             {/* MORPHING VECTOR CANVAS */}
-            <div className="relative w-[500px] h-[500px] flex items-center justify-center">
+            <div className="relative w-[clamp(280px,85vw,500px)] h-[clamp(280px,85vw,500px)] flex items-center justify-center">
                <motion.div 
                  animate={{ 
                    borderRadius: ["20%", "50%", "10%", "20%"],
@@ -177,7 +177,7 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
                    scale: [1, 0.9, 1.1, 1]
                  }}
                  transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                 className="w-80 h-80 bg-white/5 border-2 border-black/5 backdrop-blur-sm relative"
+                 className="w-[70%] h-[70%] bg-white/5 border-2 border-black/5 backdrop-blur-sm relative"
                >
                   {/* ANCHOR POINTS */}
                   <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-white border border-black shadow-sm" />
@@ -216,8 +216,8 @@ const ServiceVisualEffect = memo(({ service, index, progress }: ServiceVisualEff
   return (
     <motion.div
       style={{ opacity }}
-      className={`absolute top-1/2 -translate-y-1/2 w-full lg:w-[60%] h-[350px] sm:h-[500px] lg:h-[700px] pointer-events-none z-0 ${
-        index % 2 === 0 ? "lg:left-auto lg:right-[-5%] left-0" : "lg:right-auto lg:left-[-5%] right-0"
+      className={`absolute top-1/2 -translate-y-1/2 w-[95%] lg:w-[42%] xl:w-[55%] h-[350px] sm:h-[500px] lg:h-[550px] xl:h-[700px] pointer-events-none z-0 ${
+        index % 2 === 0 ? "lg:left-auto lg:right-[-2%] left-1/2 -translate-x-1/2 lg:translate-x-0" : "lg:right-auto lg:left-[-2%] right-1/2 translate-x-1/2 lg:translate-x-0"
       }`}
     >
       {/* MOBILE ATMOSPHERIC GLOW */}
@@ -262,9 +262,9 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
   return (
     <section
       ref={ref}
-      className="w-full min-h-screen flex items-center relative overflow-hidden px-4 sm:px-12 md:px-24 py-16 lg:py-24"
+      className="w-full min-h-screen flex items-center relative overflow-hidden px-[5vw] sm:px-12 md:px-24 py-16 lg:py-24"
     >
-      <div className={`flex w-full h-full items-center relative gap-8 lg:gap-20 justify-center ${index % 2 === 0 ? "lg:justify-start" : "lg:justify-end"}`}>
+      <div className={`flex w-full h-full items-center relative gap-4 lg:gap-12 xl:gap-20 justify-center ${index % 2 === 0 ? "lg:justify-start" : "lg:justify-end"}`}>
         
         {/* SERVICE VISUAL EFFECT */}
         <ServiceVisualEffect service={service} index={index} progress={scrollYProgress} />
@@ -272,7 +272,7 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
         {/* MAIN PANEL */}
         <motion.div
           style={{ y: yMain, opacity, scale }}
-          className="w-full max-w-[500px] lg:max-w-none lg:w-[500px] xl:w-[650px] relative z-10 group"
+          className="w-full max-w-[500px] lg:max-w-none lg:w-[480px] xl:w-[500px] 2xl:w-[650px] relative z-10 group"
         >
           {/* GLASS PANEL (REFINED WIDTH) */}
           <div className="relative overflow-hidden bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_20px_40px_rgba(0,0,0,0.02)] pointer-events-auto transition-all duration-700 hover:bg-white/20 rounded-xs">
@@ -308,7 +308,7 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
                 style={{ y: yHeader }}
                 initial={{ opacity: 0, x: -10 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
-                className="text-[clamp(1.5rem,5vw,3rem)] font-black uppercase tracking-tighter leading-[0.85] text-black mb-10"
+                className="text-[clamp(1.75rem,8vw,3.5rem)] font-black uppercase tracking-tighter leading-[0.85] text-black mb-10"
               >
                 {service.titleFull.split(' ').map((word: string, i: number) => (
                   <span 
@@ -341,7 +341,7 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
 
               <motion.div 
                 style={{ y: yStats }}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 mb-12"
               >
                 {service.details.map((d: string, j: number) => (
                   <motion.div
@@ -353,15 +353,31 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
                   >
                     <div className="w-2.5 h-2.5 rounded-sm shrink-0 shadow-sm transition-transform group-hover/item:scale-125" 
                          style={{ backgroundColor: service.color }} />
-                    <span className="whitespace-nowrap">{d}</span>
+                    <span className="lg:whitespace-nowrap">{d}</span>
                   </motion.div>
                 ))}
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ delay: 0.8 }}
+              >
+                <Link href={`/services/${service.slug}`}>
+                  <motion.button
+                    whileHover={{ x: 10, color: service.color }}
+                    className="flex items-center gap-4 text-[10px] font-mono font-black uppercase tracking-[0.4em] text-black transition-colors"
+                  >
+                    <span>View Details</span>
+                    <span className="w-8 h-px bg-current" />
+                  </motion.button>
+                </Link>
               </motion.div>
             </div>
           </div>
 
-          {/* BACKGROUND DECORATIVE TEXT (SLIMMED) */}
-          <div className="absolute -bottom-10 -right-10 text-[10rem] font-black text-black/[0.012] pointer-events-none select-none uppercase tracking-tighter leading-none whitespace-nowrap block lg:hidden xl:block">
+          {/* BACKGROUND DECORATIVE TEXT (SLIMMED & RESPONSIVE) */}
+          <div className="absolute -bottom-10 -right-10 text-[clamp(4rem,18vw,10rem)] font-black text-black/[0.012] pointer-events-none select-none uppercase tracking-tighter leading-none whitespace-nowrap hidden xl:block max-w-full overflow-hidden">
             {service.title}
           </div>
         </motion.div>
@@ -403,7 +419,7 @@ export default function Home() {
                 initial={{ y: 60, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-                className="text-[clamp(3rem,12vw,14rem)] font-black text-black leading-[0.9] sm:leading-none tracking-tighter uppercase mb-2"
+                className="text-[clamp(2.2rem,12vw,14rem)] font-black text-black leading-[0.8] sm:leading-none tracking-tighter uppercase mb-2"
               >
                 THESSK<span className="text-[#ff4d4d]">.</span>
               </motion.h1>
@@ -455,7 +471,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.0 }}
-                className="flex flex-wrap justify-center gap-8 sm:gap-14 md:gap-24 pointer-events-auto"
+                className="flex flex-wrap justify-center gap-4 sm:gap-14 md:gap-24 pointer-events-auto"
               >
                 {stats.map((s, i) => (
                   <div key={i} className="text-center group cursor-default">
@@ -549,82 +565,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FOOTER / CTA */}
-        <section className="bg-white text-black py-32 px-8 md:px-24 border-t border-black/5">
-          <div className="max-w-7xl mx-auto w-full">
-            <div className="mb-24">
-              <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-black/40 block mb-8">Tech_Arsenal</span>
-              <div className="flex flex-wrap gap-3 md:gap-4">
-                {techStack.map((tech, i) => (
-                  <span
-                    key={i}
-                    className="px-5 py-2.5 md:px-6 md:py-3 border border-black/10 text-[9px] md:text-xs font-mono font-black uppercase tracking-widest text-black/60 hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-default rounded-sm bg-black/[0.02]"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-12 lg:gap-16 mb-20 border-b border-black/20 pb-20">
-              <div className="max-w-4xl text-center md:text-left">
-                <span className="text-[10px] md:text-xs font-mono font-black tracking-[0.7em] uppercase text-black/40 block mb-6">Ready_To_Launch?</span>
-                <h2 className="text-[3.5rem] sm:text-[6rem] md:text-[9rem] lg:text-[12rem] font-black tracking-tighter leading-[0.9] uppercase mb-10 md:mb-0">
-                  LET'S<br /><span className="italic text-[#ff4d4d]">BUILD IT.</span>
-                </h2>
-              </div>
-              <Link href="/contact" className="w-auto">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 aspect-square rounded-full bg-black text-white flex items-center justify-center font-black text-xs md:text-sm lg:text-base uppercase tracking-widest cursor-pointer transition-all duration-300 text-center leading-tight shadow-3xl group mx-auto md:mx-0"
-                >
-                  <span className="group-hover:text-[#ff4d4d] transition-colors">Get Free<br />Consult</span>
-                </motion.div>
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12 mb-16">
-              {[
-                { label: "Email", value: "sourabhsharmakhandal37@gmail.com", href: "mailto:sourabhsharmakhandal37@gmail.com", color: "#4d91ff" },
-                { label: "WhatsApp", value: "+91 83026 48076", href: "https://wa.me/918302648076", color: "#25D366" },
-                { label: "Location", value: "Jaipur, Rajasthan", sub: "Serving clients worldwide", color: "#ff4d4d" }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i}
-                  whileHover={{ y: -5 }}
-                  className="bg-black/5 hover:bg-black/10 transition-colors p-8 lg:p-10 border border-black/5 rounded-2xl relative overflow-hidden group"
-                >
-                  <div className="absolute top-0 left-0 w-1 h-0 group-hover:h-full transition-all duration-500" style={{ backgroundColor: item.color }} />
-                  <p className="text-[10px] font-mono font-black text-black/30 tracking-[0.4em] uppercase mb-4">{item.label}</p>
-                  {item.href ? (
-                    <a href={item.href} className="text-base sm:text-lg lg:text-xl font-black text-black hover:text-[#ff4d4d] transition-colors break-all">
-                      {item.value}
-                    </a>
-                  ) : (
-                    <div>
-                      <p className="text-base sm:text-lg lg:text-xl font-black text-black leading-tight mb-2">{item.value}</p>
-                      <p className="text-[10px] font-mono text-black/40 uppercase tracking-widest">{item.sub}</p>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-12 border-t border-black/10">
-              <span className="text-[9px] sm:text-[10px] md:text-xs font-mono font-black tracking-[0.5em] uppercase text-black/40">© 2026 THESSK</span>
-              <div className="flex gap-8">
-                {["Twitter", "LinkedIn", "Behance"].map(social => (
-                  <a key={social} href="#" className="text-[9px] sm:text-[10px] font-mono font-black uppercase text-black/40 hover:text-[#ff4d4d] transition-colors tracking-widest">{social}</a>
-                ))}
-              </div>
-              <span className="text-[9px] sm:text-[10px] md:text-xs font-mono font-black tracking-[0.5em] uppercase text-[#ff4d4d]">Design by ssk</span>
-            </div>
-          </div>
-        </section>
-      </div>
-
-    </main>
+        </div>
+      </main>
     </SmoothScroll>
   );
 }

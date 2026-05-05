@@ -38,12 +38,12 @@ export default function Header() {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16 h-20 flex items-center justify-between">
+        <div className="max-w-[1600px] mx-auto px-[5vw] h-20 flex items-center justify-between">
           
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-3 group">
             <motion.div whileHover={{ scale: 1.02 }} className="flex items-center gap-2">
-              <span className="text-2xl font-black tracking-[-0.08em] text-black uppercase">
+              <span className="text-[clamp(1.25rem,4vw,1.5rem)] font-black tracking-[-0.08em] text-black uppercase">
                 THESSK
               </span>
               <span className="w-2 h-2 rounded-full bg-[#ff4d4d] group-hover:scale-150 transition-transform duration-300" />

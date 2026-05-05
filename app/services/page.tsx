@@ -15,17 +15,17 @@ export default function Services() {
         <ThreeBackground />
       </div>
 
-      <div className="relative z-10 pt-36 pb-24 px-8 md:px-24 max-w-[1600px] mx-auto">
+      <div className="relative z-10 pt-36 pb-24 px-[5vw] max-w-[1600px] mx-auto">
 
         {/* Page Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 border-b border-black/10 pb-14">
           <div>
-            <span className="text-[9px] font-mono font-black tracking-[0.7em] uppercase text-black/30 block mb-6">Capabilities_Matrix</span>
+            <span className="text-[9px] font-mono font-black tracking-[0.3em] sm:tracking-[0.7em] uppercase text-black/30 block mb-6">Capabilities_Matrix</span>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-              className="text-[clamp(3rem,12vw,6rem)] md:text-[14rem] font-black tracking-[-0.1em] leading-none uppercase text-black"
+              className="text-[clamp(2.5rem,12vw,14rem)] font-black tracking-[-0.1em] leading-none uppercase text-black"
             >
               SERVICES<span className="text-[#00b8ff]">.</span>
             </motion.h1>
@@ -43,42 +43,43 @@ export default function Services() {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black/5 mb-24">
           {servicesContent.map((service, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.7 }}
-              className="bg-white p-14 md:p-20 group hover:bg-black transition-all duration-700 cursor-default relative overflow-hidden"
-            >
-              {/* Color bar */}
-              <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: service.color }} />
+            <Link key={i} href={`/services/${service.slug}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.7 }}
+                className="bg-white p-[clamp(2rem,8vw,5rem)] group hover:bg-black transition-all duration-700 cursor-pointer h-full relative overflow-hidden"
+              >
+                {/* Color bar */}
+                <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: service.color }} />
 
-              <div className="flex justify-between items-start mb-12">
-                <span className="text-[9px] font-mono font-black tracking-[0.5em] uppercase text-black/30 group-hover:text-white/30 transition-colors">
-                  {service.tag}
-                </span>
-                <span className="text-[9px] font-mono font-black text-black/20 group-hover:text-white/20">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-              </div>
+                <div className="flex justify-between items-start mb-12">
+                  <span className="text-[9px] font-mono font-black tracking-[0.5em] uppercase text-black/30 group-hover:text-white/30 transition-colors">
+                    {service.tag}
+                  </span>
+                  <span className="text-[9px] font-mono font-black text-black/20 group-hover:text-white/20">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
 
-              <h2 className="text-3xl sm:text-4xl md:text-7xl font-black uppercase tracking-[-0.07em] leading-none text-black group-hover:text-white transition-colors duration-500 mb-6">
-                {service.titleFull}
-              </h2>
+                <h2 className="text-3xl sm:text-4xl md:text-7xl font-black uppercase tracking-[-0.07em] leading-none text-black group-hover:text-white transition-colors duration-500 mb-6">
+                  {service.titleFull}
+                </h2>
 
-              <p className="text-sm text-black/60 font-medium leading-loose mb-12 group-hover:text-white/60 transition-colors">
-                {service.desc}
-              </p>
+                <p className="text-sm text-black/60 font-medium leading-loose mb-12 group-hover:text-white/60 transition-colors">
+                  {service.desc}
+                </p>
 
-              <div className="grid grid-cols-2 gap-y-3 gap-x-6 pt-8 border-t border-black/10 group-hover:border-white/10">
-                {service.details.map((d, j) => (
-                  <div key={j} className="flex items-center gap-2 text-[9px] font-mono font-black uppercase tracking-widest text-black/40 group-hover:text-white/40 transition-colors">
-                    <span className="w-1 h-1 rounded-full bg-current flex-shrink-0" />
-                    {d}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 pt-8 border-t border-black/10 group-hover:border-white/10">
+                  {service.details.map((d, j) => (
+                    <div key={j} className="flex items-center gap-2 text-[9px] font-mono font-black uppercase tracking-widest text-black/40 group-hover:text-white/40 transition-colors">
+                      <span className="w-1 h-1 rounded-full bg-current flex-shrink-0" />
+                      {d}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
 

@@ -132,11 +132,6 @@ export default function Contact() {
           </motion.a>
         </motion.div>
 
-        {/* Footer bar */}
-        <div className="flex justify-between items-center mt-16 pt-8 border-t border-black/10 opacity-30">
-          <span className="text-[9px] font-mono font-black tracking-widest uppercase">© 2026 THESSK</span>
-          <span className="text-[9px] font-mono font-black tracking-widest uppercase">Jaipur · India · Worldwide</span>
-        </div>
       </div>
     </div>
   );
