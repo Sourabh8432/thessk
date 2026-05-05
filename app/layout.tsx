@@ -24,6 +24,7 @@ export const metadata: Metadata = {
 
 import Preloader from "@/src/components/Preloader";
 import Footer from "@/src/components/Footer";
+import { LazyMotion, domMax } from "framer-motion";
 
 export default function RootLayout({
   children,
@@ -32,13 +33,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className="bg-[#f2f2f2] text-black overflow-x-hidden">
-        <Preloader />
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <LazyMotion features={domMax}>
+          <Preloader />
+          <Header />
+          <main>
+            {children}
+          </main>
+          <Footer />
+        </LazyMotion>
       </body>
     </html>
   );

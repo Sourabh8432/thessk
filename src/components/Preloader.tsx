@@ -10,22 +10,35 @@ export default function Preloader() {
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-    // Controlled randomized progress for a more "organic" loading feel
+    const handleLoad = () => {
+      setProgress(100);
+      setTimeout(() => setIsLoading(false), 500);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+
+    // Controlled randomized progress for a more "organic" loading feel (fallback)
     const updateProgress = () => {
       setProgress((prev) => {
-        if (prev >= 100) {
+        if (prev >= 90) { // Stay at 90% until window load
           clearInterval(interval);
-          setTimeout(() => setIsLoading(false), 500);
-          return 100;
+          return 90;
         }
         const diff = Math.random() * 15;
-        return Math.min(prev + diff, 100);
+        return Math.min(prev + diff, 90);
       });
     };
 
     interval = setInterval(updateProgress, 150 + Math.random() * 200);
     
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('load', handleLoad);
+    };
   }, []);
 
   // Lock scroll while loading

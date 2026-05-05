@@ -19,7 +19,7 @@ const AdvancedCity = () => {
   const { size }      = useThree();
 
   const isMobile = size.width < 768;
-  const BUILDING_COUNT = isMobile ? 80 : 180; 
+  const BUILDING_COUNT = isMobile ? 50 : 180; // Reduced mobile count for performance
   const START_Z        = 40;
   const END_Z          = -6000;
 
@@ -48,12 +48,14 @@ const AdvancedCity = () => {
       dummy.updateMatrix();
       meshBasesRef.current.setMatrixAt(i, dummy.matrix);
       meshBasesRef.current.setColorAt(i, col);
+      
       const towerH = b.h;
       dummy.position.set(b.x, (towerH / 2) - 0.55, b.z);
       dummy.scale.set(b.w * 0.85, towerH, b.d * 0.85);
       dummy.updateMatrix();
       meshTowersRef.current.setMatrixAt(i, dummy.matrix);
       meshTowersRef.current.setColorAt(i, col);
+      
       const glassH = b.h * 0.92;
       dummy.position.set(b.x, (glassH / 2) - 0.55, b.z);
       dummy.scale.set(b.w * 0.88, glassH, b.d * 0.88);
@@ -68,14 +70,13 @@ const AdvancedCity = () => {
   }, [dummy, cityData]);
 
   const archMaterial = useMemo(() => {
-    const MaterialClass = isMobile ? THREE.MeshStandardMaterial : THREE.MeshPhysicalMaterial;
+    // Optimization: Use Lambert for mobile (no physical lighting overhead)
+    const MaterialClass = isMobile ? THREE.MeshLambertMaterial : THREE.MeshPhysicalMaterial;
     const mat = new MaterialClass({
-      roughness: 0.2, metalness: 0.1, color: "#f8fafc", emissive: "#ffffff", emissiveIntensity: 0.015, transparent: true
+      color: "#f8fafc", emissive: "#ffffff", emissiveIntensity: 0.015, transparent: true,
+      ...(isMobile ? {} : { roughness: 0.2, metalness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.05 })
     });
-    if (!isMobile) {
-      mat.clearcoat = 1.0;
-      mat.clearcoatRoughness = 0.05;
-    }
+
     mat.onBeforeCompile = (shader) => {
       shader.uniforms.uTime   = { value: 0 }; 
       shader.uniforms.uRise   = { value: 0 };
@@ -106,14 +107,21 @@ const AdvancedCity = () => {
           #include <color_fragment> 
           vec2 grid = vCustomUv * vec2(4.0, 24.0);
           vec2 f = fract(grid);
-          float window = smoothstep(0.12, 0.15, f.x) * smoothstep(0.88, 0.85, f.x) *
-                         smoothstep(0.12, 0.15, f.y) * smoothstep(0.88, 0.85, f.y);
+          // Optimized window calculation
+          float winX = smoothstep(0.12, 0.15, f.x) * smoothstep(0.88, 0.85, f.x);
+          float winY = smoothstep(0.12, 0.15, f.y) * smoothstep(0.88, 0.85, f.y);
+          float window = winX * winY;
+          
           float noise = fract(sin(dot(floor(grid), vec2(12.9898, 78.233))) * 43758.5453);
           float blink = step(0.96, fract(noise + uTime * 0.04));
           vec3 windowColor = vec3(1.0, 0.98, 0.92); 
           diffuseColor.rgb = mix(diffuseColor.rgb, windowColor, window * blink * 0.25);
-          float edge = 1.0 - pow(abs(dot(normalize(vViewPosition), vec3(0,0,1))), 3.0);
-          diffuseColor.rgb += vec3(1.0) * edge * 0.08;
+          
+          // Simplified edge for mobile
+          ${isMobile ? '' : `
+            float edge = 1.0 - pow(abs(dot(normalize(vViewPosition), vec3(0,0,1))), 3.0);
+            diffuseColor.rgb += vec3(1.0) * edge * 0.08;
+          `}
         `)
         .replace(`#include <opaque_fragment>`, `
           #include <opaque_fragment>
@@ -125,37 +133,39 @@ const AdvancedCity = () => {
   }, [isMobile]);
 
   const glassMaterial = useMemo(() => {
-    const MaterialClass = isMobile ? THREE.MeshStandardMaterial : THREE.MeshPhysicalMaterial;
+    // Optimization: Use Basic material for glass on mobile
+    const MaterialClass = isMobile ? THREE.MeshBasicMaterial : THREE.MeshPhysicalMaterial;
     return new MaterialClass({
-      roughness: 0.01, metalness: 0.2, transparent: true, opacity: 0.7, color: "#ffffff",
-      ...(isMobile ? {} : { transmission: 0.05, thickness: 2.0, clearcoat: 1.0 })
+      transparent: true, opacity: 0.6, color: "#ffffff",
+      ...(isMobile ? {} : { roughness: 0.01, metalness: 0.2, transmission: 0.05, thickness: 2.0, clearcoat: 1.0 })
     });
   }, [isMobile]);
 
   useFrame((state) => {
     const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-    const finale = Math.max(0, (scrollProgress - 0.48) * 10); // Starts at 48%, full wash at 58%
+    const finale = Math.max(0, (scrollProgress - 0.48) * 10);
     
     if (archMaterial.userData.shader) {
       archMaterial.userData.shader.uniforms.uTime.value   = state.clock.getElapsedTime();
-      const currentRise = archMaterial.userData.shader.uniforms.uRise.value;
-      if (currentRise < 0.995) {
-        archMaterial.userData.shader.uniforms.uRise.value = THREE.MathUtils.lerp(currentRise, 1, 0.03);
-      } else if (currentRise !== 1) {
-        archMaterial.userData.shader.uniforms.uRise.value = 1;
+      const uRise = archMaterial.userData.shader.uniforms.uRise;
+      if (uRise.value < 1) {
+        uRise.value = THREE.MathUtils.lerp(uRise.value, 1, 0.03);
       }
       archMaterial.userData.shader.uniforms.uFinale.value = finale;
     }
-    glassMaterial.opacity = 0.7 * (1.0 - finale);
+    
+    if (!isMobile) {
+      glassMaterial.opacity = 0.6 * (1.0 - finale);
+    }
   });
 
   const boxGeo = useMemo(() => new THREE.BoxGeometry(1, 1, 1), []);
 
   return (
     <>
-      <instancedMesh ref={meshBasesRef} args={[boxGeo, archMaterial, BUILDING_COUNT]} castShadow receiveShadow frustumCulled={false} />
-      <instancedMesh ref={meshTowersRef} args={[boxGeo, archMaterial, BUILDING_COUNT]} castShadow receiveShadow frustumCulled={false} />
-      <instancedMesh ref={meshGlassRef} args={[boxGeo, glassMaterial, BUILDING_COUNT]} receiveShadow frustumCulled={false} />
+      <instancedMesh ref={meshBasesRef} args={[boxGeo, archMaterial, BUILDING_COUNT]} castShadow={!isMobile} receiveShadow={!isMobile} frustumCulled={false} />
+      <instancedMesh ref={meshTowersRef} args={[boxGeo, archMaterial, BUILDING_COUNT]} castShadow={!isMobile} receiveShadow={!isMobile} frustumCulled={false} />
+      <instancedMesh ref={meshGlassRef} args={[boxGeo, glassMaterial, BUILDING_COUNT]} receiveShadow={!isMobile} frustumCulled={false} />
     </>
   );
 };

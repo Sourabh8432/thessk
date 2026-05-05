@@ -6,13 +6,14 @@ import Lenis from 'lenis';
 export default function SmoothScroll({ children }) {
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.1, // Smooth organic movement
+      lerp: 0.1, 
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 2.0, // Responsive touch for mobile
-      smoothTouch: true, // Premium inertial experience on tablets/mobile
+      touchMultiplier: 1.5, 
+      smoothTouch: true, 
+      syncTouch: true, // Optimized for mobile scroll syncing
     });
 
     function raf(time) {
