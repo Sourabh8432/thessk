@@ -142,7 +142,8 @@ const AdvancedCity = () => {
   }, [isMobile]);
 
   useFrame((state) => {
-    const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
     const finale = Math.max(0, (scrollProgress - 0.48) * 10);
     
     if (archMaterial.userData.shader) {
@@ -347,17 +348,18 @@ export default function ThreeBackground() {
       if (vignetteRef.current) {
         const finaleState = Math.max(0, (progress - 0.45) * 8); // Start bloom at 45%
         
-        // Initial "Clean Minimal" state at progress = 0, fades out quickly
-        const startState = Math.max(0, 1.0 - progress * 5.0); 
+        // Initial entry effect: much subtler to prevent "blank" look
+        const startState = Math.max(0, 0.6 - progress * 4.0); 
         
         const opacity = Math.min(1.0, startState + (finaleState * 1.2));
-        const blur = Math.max(0, (startState * 20) + (finaleState * 15)); 
-        const transparentSize = 30 + (progress * 100) - (finaleState * 100);
+        const blur = Math.max(0, (startState * 10) + (finaleState * 15)); 
+        const transparentSize = 40 + (progress * 100) - (finaleState * 100);
         
         vignetteRef.current.style.opacity = opacity;
         vignetteRef.current.style.backdropFilter = `blur(${blur}px)`;
-        vignetteRef.current.style.background = `radial-gradient(circle at center, transparent ${Math.max(0, Math.min(100, transparentSize))}%, rgba(255,255,255,${Math.min(1.0, 0.8 + startState * 0.2 + finaleState)}) 100%)`;
-        vignetteRef.current.style.transform = `scale(${1 + progress * 0.3})`;
+        vignetteRef.current.style.WebkitBackdropFilter = `blur(${blur}px)`;
+        vignetteRef.current.style.background = `radial-gradient(circle at center, transparent ${Math.max(0, Math.min(100, transparentSize))}%, rgba(255,255,255,${Math.min(1.0, 0.7 + startState * 0.3 + finaleState)}) 100%)`;
+        vignetteRef.current.style.transform = `scale(${1 + progress * 0.2})`;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });

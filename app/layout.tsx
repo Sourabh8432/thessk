@@ -20,6 +20,11 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://thessk.in",
   },
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 import Preloader from "@/src/components/Preloader";

@@ -35,8 +35,12 @@ export default function Preloader() {
 
     interval = setInterval(updateProgress, 150 + Math.random() * 200);
     
+    // Safety timeout: If window load doesn't fire within 4s, force exit
+    const safetyTimeout = setTimeout(handleLoad, 4000);
+
     return () => {
       clearInterval(interval);
+      clearTimeout(safetyTimeout);
       window.removeEventListener('load', handleLoad);
     };
   }, []);
