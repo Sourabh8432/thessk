@@ -20,8 +20,10 @@ export const processSteps = [
 ];
 
 export const techStack = [
-  "Next.js", "React", "Flutter", "Firebase", "TypeScript", 
-  "Tailwind", "Node.js", "Google Ads", "Three.js", "Figma"
+  "Next.js 16", "React 19", "Flutter", "Firebase", "TypeScript",
+  "Three.js (WebGL)", "Tailwind CSS v4", "Node.js", "Express.js", "Python / Django",
+  "PostgreSQL", "MongoDB", "Supabase", "Prisma ORM", "GraphQL",
+  "Git & GitHub", "AWS Cloud", "Vercel Deploy", "Docker", "Framer Motion", "GSAP Animations", "Figma"
 ];
 
 export const whyUs = [

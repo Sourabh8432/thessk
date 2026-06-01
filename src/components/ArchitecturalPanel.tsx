@@ -121,16 +121,35 @@ const ArchitecturalPanel = memo(({ service, index }: ArchitecturalPanelProps) =>
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : {}}
                 transition={{ delay: 0.8 }}
+                className="flex flex-wrap gap-6 items-center"
               >
                 <Link href={`/services/${service.slug}`}>
                   <m.button
-                    whileHover={{ x: 10, color: service.color }}
-                    className="flex items-center gap-4 text-[10px] font-mono font-black uppercase tracking-[0.4em] text-black transition-colors"
+                    whileHover={{ x: 5, color: service.color }}
+                    className="flex items-center gap-3 text-[10px] font-mono font-black uppercase tracking-[0.4em] text-black transition-colors"
                   >
                     <span>View Details</span>
                     <span className="w-8 h-px bg-current" />
                   </m.button>
                 </Link>
+
+                {service.externalLink && (
+                  <a
+                    href={service.externalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <m.button
+                      whileHover={{ scale: 1.05, backgroundColor: service.color, color: "#fff", borderColor: service.color }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-5 py-2.5 border border-black text-black font-mono font-black text-[9px] tracking-[0.3em] uppercase transition-all duration-300 rounded-sm flex items-center gap-2 cursor-pointer shadow-sm"
+                    >
+                      <span>Explore Web Platform</span>
+                      <span className="text-[11px] font-sans">↗</span>
+                    </m.button>
+                  </a>
+                )}
               </m.div>
             </div>
           </div>

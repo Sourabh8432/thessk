@@ -55,9 +55,16 @@ export default function Services() {
                 <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: service.color }} />
 
                 <div className="flex justify-between items-start mb-12">
-                  <span className="text-[9px] font-mono font-black tracking-[0.5em] uppercase text-black/30 group-hover:text-white/30 transition-colors">
-                    {service.tag}
-                  </span>
+                  <div className="flex flex-col gap-2 items-start">
+                    <span className="text-[9px] font-mono font-black tracking-[0.5em] uppercase text-black/30 group-hover:text-white/30 transition-colors">
+                      {service.tag}
+                    </span>
+                    {service.externalLink && (
+                      <span className="px-2 py-0.5 border border-[#ff4d4d] text-[8px] font-mono font-black uppercase tracking-widest text-[#ff4d4d] group-hover:text-[#ff4d4d] group-hover:border-[#ff4d4d] bg-transparent">
+                        Dedicated Portal ↗
+                      </span>
+                    )}
+                  </div>
                   <span className="text-[9px] font-mono font-black text-black/20 group-hover:text-white/20">
                     {String(i + 1).padStart(2, '0')}
                   </span>

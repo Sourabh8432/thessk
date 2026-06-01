@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 
 import Preloader from "@/src/components/Preloader";
 import Footer from "@/src/components/Footer";
+import ChatWidget from "@/src/components/ChatWidget";
 import { LazyMotion, domMax } from "framer-motion";
 
 export default function RootLayout({
@@ -50,6 +51,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <ChatWidget />
         </LazyMotion>
       </body>
     </html>

@@ -6,6 +6,7 @@ export const servicesContent = [
     title: "WEB_PROTOCOLS",
     titleFull: "Web Development",
     slug: "web-development",
+    externalLink: "https://web.thessk.in/",
     desc: "Custom websites, landing pages & e-commerce solutions built with modern frameworks — hyper-optimized for SEO, speed and conversions.",
     fullDesc: "We build high-performance, scalable websites that don't just look good but perform exceptionally. From complex e-commerce platforms to sleek corporate sites, our web solutions are engineered for speed, security, and search engine dominance. We use the latest technologies like Next.js and React to ensure your digital presence is future-proof.",
     features: [
@@ -125,8 +126,10 @@ export const processSteps = [
 ];
 
 export const techStack = [
-  "Next.js", "React", "Flutter", "Firebase", "TypeScript",
-  "Tailwind", "Node.js", "Google Ads", "Three.js", "Figma"
+  "Next.js 16", "React 19", "Flutter", "Firebase", "TypeScript",
+  "Three.js (WebGL)", "Tailwind CSS v4", "Node.js", "Express.js", "Python / Django",
+  "PostgreSQL", "MongoDB", "Supabase", "Prisma ORM", "GraphQL",
+  "Git & GitHub", "AWS Cloud", "Vercel Deploy", "Docker", "Framer Motion", "GSAP Animations", "Figma"
 ];
 
 export const whyUs = [
